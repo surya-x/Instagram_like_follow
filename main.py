@@ -6,11 +6,16 @@ from app.web_methods import *
 import openpyxl
 from selenium.common.exceptions import NoSuchElementException
 
-nrows = get_nrows()
-path = retrieve_file_path()
+try:
+    path = retrieve_file_path()
+    nrows = get_nrows(path)
 
-check_rows(nrows)
-check_ok_status(path)
+    check_rows(nrows)
+    check_ok_status(path)
+except:
+    print("Not checking the excel file in the begining ( add log )")
+    # TODO : add this to log
+
 
 while True:
     driver = connecting_with_chrome()

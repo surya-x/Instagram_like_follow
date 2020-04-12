@@ -4,14 +4,16 @@ import shutil
 
 # To give the path of insta_search_found.xlsx (whose directory is in parameters.xlsx
 def retrieve_file_path():
-    workbook = openpyxl.load_workbook(r"assets\parameters.xlsx")
-    sheet = workbook.worksheets[0]
-    path = sheet["A1"].value + r"\insta_search_found.xlsx"
-    return path
+    try:
+        workbook = openpyxl.load_workbook(r"assets\parameters.xlsx")
+        sheet = workbook.worksheets[0]
+        path = sheet["A1"].value + r"\insta_search_found.xlsx"
+        return path
+    except:
+        print("Error : loading parameters.xlsx")
 
 # To give the no. of rows in insta_search_found.xlsx
-def get_nrows():
-    path = retrieve_file_path()
+def get_nrows(path):
     workbook = openpyxl.load_workbook(path)
     sheet = workbook.worksheets[0]
     nrows = sheet.max_row
