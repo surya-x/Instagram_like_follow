@@ -24,14 +24,18 @@ It will work in the following steps :-
 
 
 Note :- 
-    > Make sure you are writing the path(location) of directory(folder) in which "insta_search_found.xlsx" is there, in "parameter.xlsx". Not the path of the file itself.
-    > Example :- 
+
+   > Make sure you are writing the path(location) of directory(folder) in which "insta_search_found.xlsx" is there, in "parameter.xlsx". Not the path of the file itself.
+    
+   > Example :- 
       It should be like -- C:\Python\Projects\Insta_followers\assets
       Not like          -- C:\Python\Projects\Insta_followers\assets\insta_search_found.xlsx
-	> Make sure to write correct username and password, otherwise the bot will show unwanted errors.
-	> Make sure to write all the three coloumns in "parameter.xlsx" before running the scrips. ( Please write time limit in minutes ).
-	
-	> If the bot is opening the Chrome window (i.e Is not running silently) then please dont minimize, change the shape of the window to run it smoothly.
+      
+   > Make sure to write correct username and password, otherwise the bot will show unwanted errors.
+    
+   > Make sure to write all the three coloumns in "parameter.xlsx" before running the scrips. ( Please write time limit in minutes ).
+   
+   > If the bot is opening the Chrome window (i.e Is not running silently) then please dont minimize, change the shape of the window to run it smoothly.
     
     
 	
@@ -43,7 +47,7 @@ Note :-
     -shutil 		--pytest-shutil
     -os
     -sys
-	-pause          --pause
-	-datetime
-	-logging
+    -pause          --pause
+    -datetime
+    -logging
  
