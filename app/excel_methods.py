@@ -1,9 +1,12 @@
+from config import *
 import openpyxl
 import sys
 import shutil
+import os
 
 # To give the all the details in "parameter.xlsx"
 def retrieve_file_parameter():
+    logging.info("retrieve file parameter called")
     try:
         workbook = openpyxl.load_workbook(r"assets\parameters.xlsx")
         sheet = workbook.worksheets[0]
@@ -14,13 +17,16 @@ def retrieve_file_parameter():
 
         return path, follow_limit, time_limit
     except Exception as e:
-        print("Error : loading data from parameters.xlsx")
+        print("\nError : loading data from parameters.xlsx")
         print(e)
-        sys.exit()                                                  # quit here
+        logging.error(e)
+        os.system("PAUSE")
+        sys.exit()
 
 
 # To give the no. of rows in insta_search_found.xlsx
 def get_nrows(path):
+    logging.info("get_nrows called")
     try:
         workbook = openpyxl.load_workbook(path)
         sheet = workbook.worksheets[0]
@@ -29,20 +35,23 @@ def get_nrows(path):
     except Exception as e:
         print("Error : loading 'insta_search_found.xlsx' ")
         print(e)
+        logging.error(e)
+        os.system("PAUSE")
         sys.exit()
 
 
 # Make sure that atleast 1 row (with information) is available to use bot
 def check_rows(nrows):
+    logging.info("check_rows called")
     if nrows < 2:
         print("No username given in 'insta_search_found.xlsx' ")
-        # sys.exit()                                                    # quits the code
 
 
 # Make sure atleast 1 rows without "OK" status is available to use bot
 # True for any Blank column left to execute
 # False for NO blank column left ( All OK )
 def check_ok_status(path):
+    logging.info("check ok status called")
     try:
         workbook = openpyxl.load_workbook(path)
         sheet = workbook.worksheets[0]
@@ -55,7 +64,7 @@ def check_ok_status(path):
                 ok_count = ok_count + 1
 
         if ok_count == (no_of_rows - 1):
-            print("Status of all username is 'OK' ")
+            print("Status of all username is 'OK' or Filled ")
             rename_file(path)
             sys.exit()                                                          # quits the code
         else:
@@ -63,10 +72,14 @@ def check_ok_status(path):
     except Exception as e:
         print("Error : loading 'insta_search_found.xlsx' ")
         print(e)
+        logging.error(e)
+        os.system("PAUSE")
+        sys.exit()
 
 
 # TO read the username and status from path("insta_search_found.xlsx") and return a list
 def read_usernames(path):
+    logging.info("read usernames called")
     try:
         workbook = openpyxl.load_workbook(path)
         sheet = workbook.worksheets[0]
@@ -83,27 +96,39 @@ def read_usernames(path):
     except Exception as e:
         print("Error : loading 'insta_search_found.xlsx' ")
         print(e)
+        logging.error(e)
+        os.system("PAUSE")
         sys.exit()                                                          # QUIT HERE
 
 
 def write_ok_status(path, row):
-    workbook = openpyxl.load_workbook(path)
-    sheet = workbook.worksheets[0]
+    logging.info("write ok status called")
+    try:
+        workbook = openpyxl.load_workbook(path)
+        sheet = workbook.worksheets[0]
 
-    sheet.cell(row=row, column=2).value = "OK"
-    workbook.save(path)
-
+        sheet.cell(row=row, column=2).value = "OK"
+        workbook.save(path)
+    except Exception as e:
+        print("Error : Writing OK in insta_seach_done.xlsx")
+        logging.error(e)
 
 def wrong_status(path, row):
-    workbook = openpyxl.load_workbook(path)
-    sheet = workbook.worksheets[0]
+    logging.info("wrong status called")
+    try:
+        workbook = openpyxl.load_workbook(path)
+        sheet = workbook.worksheets[0]
 
-    sheet.cell(row=row, column=2).value = "WRONG"
-    workbook.save(path)
+        sheet.cell(row=row, column=2).value = "WRONG"
+        workbook.save(path)
+    except Exception as e:
+        print("Error : Writing in insta_seach_done.xlsx")
+        logging.error(e)
 
 
 # Will rename the file "insta_search_found.xlsx" into "insta_search_found.xlsx"
 def rename_file(path):
+    logging.info("rename file called")
     try:
         workbook = openpyxl.load_workbook(r"assets\parameters.xlsx")
         sheet = workbook.worksheets[0]
@@ -114,3 +139,4 @@ def rename_file(path):
     except Exception as e:
         print("Error : renaming 'insta_search_found.xlsx' ")
         print(e)
+        logging.error(e)

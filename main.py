@@ -5,11 +5,13 @@ This bot is supported by this main file and other distributions
 # TODO : terminate the script without closing the cmd in case of error
 from app.excel_methods import *
 from app.web_methods import *
+from config import *
 import pause
 import datetime
 
 try:
     print("\nStarting...\nChecking excel attachments...")
+    logging.info("Checking excel attachments")
 
     (path, follow_limit, time_limit) = retrieve_file_parameter()
     nrows = get_nrows(path)
@@ -19,11 +21,15 @@ try:
 
 except Exception as e:
     print(e)  # Quit here
-    print("Not checking the excel file in the begining ( add log )")  # LOG
+    logging.error("Not checking the excel file in the begining")
+    logging.error(e)
+    os.system("PAUSE")
     sys.exit()
 
-while True:
 
+while True:
+    logging.info("inside while true!!!")
+    print("Logging you in.")
     driver = connecting_with_chrome()
     login_insta(driver)
 
@@ -37,6 +43,7 @@ while True:
     for username, status, row in zip(username_list, ok_list, range(2, nrows + 1)):
         if status is None:
             print("\nWorking on user :- " + username)
+            logging.info("\nWorking on user :- " + username)
             driver.get("https://www.instagram.com/" + username)
 
             time.sleep(2)
@@ -117,6 +124,7 @@ while True:
 
         # The script will run this part only if more blank columns are left
         driver.quit()
+
         print("\nThe Limit reached, waiting for %d minutes"%time_limit)
         till = datetime.timedelta(minutes=time_limit)
         till = datetime.datetime.now() + till
