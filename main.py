@@ -1,8 +1,6 @@
 '''
 This bot is supported by this main file and other distributions
 '''
-# TODO : add sys.exit() where it went wrong with pausing cmd
-# TODO : terminate the script without closing the cmd in case of error
 from app.excel_methods import *
 from app.web_methods import *
 from config import *
