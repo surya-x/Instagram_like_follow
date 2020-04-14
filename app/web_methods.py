@@ -8,6 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import openpyxl
 import sys
+import pause
 
 # This will establish connection with chrome driver
 def connecting_with_chrome():
@@ -45,7 +46,7 @@ def login_insta(driver):
         # Write the username and password into input blocks and hits enter
         driver.get("https://www.instagram.com/accounts/login/")
 
-        time.sleep(3)
+        pause.seconds(3)
 
         username_input = driver.find_element(By.NAME, "username")
         password_input = driver.find_element(By.NAME, "password")
@@ -53,7 +54,7 @@ def login_insta(driver):
         username_input.send_keys(username)
         password_input.send_keys(password, Keys.RETURN)
 
-        time.sleep(5)
+
 
     except NoSuchElementException:
         print("The Username or Password is incorrect, Try opening it after correcting \nMake sure you have active internet")
@@ -201,7 +202,7 @@ def follow_user(driver):
 def follow_private_user(driver):
     try:
         follow = driver.find_element(By.XPATH, "//*[@id='react-root']/section/main/div/header/section/div[1]/button")
-        if follow.text == "Follow":
+        if "Follow" in follow.text:
             follow.click()
             time.sleep(2)
             return True

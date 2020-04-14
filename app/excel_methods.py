@@ -29,6 +29,7 @@ def get_nrows(path):
     except Exception as e:
         print("Error : loading 'insta_search_found.xlsx' ")
         print(e)
+        sys.exit()
 
 
 # Make sure that atleast 1 row (with information) is available to use bot
@@ -39,6 +40,8 @@ def check_rows(nrows):
 
 
 # Make sure atleast 1 rows without "OK" status is available to use bot
+# True for any Blank column left to execute
+# False for NO blank column left ( All OK )
 def check_ok_status(path):
     try:
         workbook = openpyxl.load_workbook(path)
@@ -48,11 +51,11 @@ def check_ok_status(path):
         ok_count = 0
 
         for i in range(2, no_of_rows+1):
-            if sheet.cell(row=i, column=2).value == "OK":
+            if sheet.cell(row=i, column=2).value is not None:
                 ok_count = ok_count + 1
 
         if ok_count == (no_of_rows - 1):
-            print("Status of all username is already 'OK' ")
+            print("Status of all username is 'OK' ")
             rename_file(path)
             sys.exit()                                                          # quits the code
         else:
@@ -91,7 +94,15 @@ def write_ok_status(path, row):
     workbook.save(path)
 
 
-# Will rename the file "insta_search_found.xlsx" into "insta_search_found_done.xlsx"
+def wrong_status(path, row):
+    workbook = openpyxl.load_workbook(path)
+    sheet = workbook.worksheets[0]
+
+    sheet.cell(row=row, column=2).value = "WRONG"
+    workbook.save(path)
+
+
+# Will rename the file "insta_search_found.xlsx" into "insta_search_found.xlsx"
 def rename_file(path):
     try:
         workbook = openpyxl.load_workbook(r"assets\parameters.xlsx")
@@ -99,6 +110,7 @@ def rename_file(path):
 
         newpath = sheet["A2"].value + r"\insta_search_found_done.xlsx"
         shutil.move(path, newpath)
+        print("\n...DONE...")
     except Exception as e:
         print("Error : renaming 'insta_search_found.xlsx' ")
         print(e)
